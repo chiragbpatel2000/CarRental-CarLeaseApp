@@ -40,4 +40,4 @@ Docker image (`Dockerfile`) -> Render Blueprint (`render.yaml`) or any Docker ho
 
 
 ## Status
-Lease plans (12/24 months) were not built: only day rentals. Verified on local Docker MySQL 8.4: seed (emoji), health, and a 3-parallel-POST race (one 201, two 409). `docker build` succeeds.
+Lease plans (12/24 months) were not built: only day rentals. Verified on local Docker MySQL 8.4 and on TiDB Cloud Serverless (database `carrental`, TLS): seed (emoji), health, and a 3-parallel-POST race (one 201, two 409). `docker build` succeeds.
