@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 Car Rental: Angular 22 SPA + FastAPI (Python) API + MySQL. One process serves both in production. Customers rent a car for a date range (exclusive per car per day, max 30 days). Scaffolded from the `build-fullstack-angular-python-app` skill. The `resources` table holds cars.
 
 ## Commands (run from the repo root)
@@ -36,8 +38,11 @@ Single backend test: `backend/.venv/Scripts/python -m pytest -c backend/pyprojec
 - Coverage thresholds: backend 90% (`pyproject.toml`), frontend 90/90/85/80 (`angular.json`). Excluded on purpose: `app.config.ts`, `main.ts` (bootstrap). Don't lower thresholds; add tests.
 
 ## Deployment
-Docker image (`Dockerfile`) -> Render Blueprint (`render.yaml`) or any Docker host. Env: `DATABASE_URL` (secret, dashboard only), `DB_SSL=true` for managed MySQL. Health check `/api/health`. Never commit `.env`. Not deployed yet; no GitHub repo yet (the `gh` CLI was not installed when this was built).
-
+Docker image (`Dockerfile`) -> Render Blueprint (`render.yaml`, service `carrental-carleaseapp`) or any Docker host. Repo: private `chiragbpatel2000/CarRental-CarLeaseApp` (branch `main`). Env: `DATABASE_URL` (secret, set in the Render dashboard only), `DB_SSL=true`. Health check `/api/health`. Database: TiDB Cloud Serverless, database `carrental`.
+- Working URL form: `mysql+pymysql://USER:PASSWORD@gateway01.ap-northeast-1.prod.aws.tidbcloud.com:4000/carrental?ssl=true`. TiDB's copy-paste template uses `mysql://`, a literal `PASSWORD` and database `sys`: all three must be changed (`sys` is a system schema; the app must not create tables there). A literal placeholder password shows up as MySQL error 1045 (access denied).
+- TiDB's IP access list must allow Render (free tier has no fixed IP). Free Render services sleep when idle: the first request can take 30-60 s.
+- First Render deploy failed (cause not yet diagnosed: need the deploy logs). Do not assume it is live; check `/api/health` first.
+- The password was pasted into a chat once: rotate it in TiDB, then update `.env` and Render.
 
 ## Status
-Lease plans (12/24 months) were not built: only day rentals. Verified on local Docker MySQL 8.4 and on TiDB Cloud Serverless (database `carrental`, TLS): seed (emoji), health, and a 3-parallel-POST race (one 201, two 409). `docker build` succeeds.
+Only day rentals are built; lease plans (12/24 months) are not. Verified on local Docker MySQL 8.4 and TiDB Cloud (seed with emoji, health, 3-parallel-POST race: one 201, two 409) and `docker build` succeeds. Not yet verified: the deployed Render service.
