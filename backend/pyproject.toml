@@ -1,0 +1,28 @@
+[project]
+name = "carrental-carleaseapp-backend"
+version = "0.0.0"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q --cov=app --cov-report=term-missing --cov-fail-under=90"
+
+[tool.coverage.run]
+source = ["app"]
+# Bootstrap/driver glue that needs a live MySQL: deliberately excluded (say so in CLAUDE.md). Do NOT lower the
+# threshold to pass; add tests.
+omit = ["app/__init__.py"]
+
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:", "pragma: no cover"]
+
+[tool.ruff]
+line-length = 130
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Body", "fastapi.Depends", "fastapi.Header", "fastapi.Query"]

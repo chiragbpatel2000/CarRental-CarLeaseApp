@@ -1,0 +1,6 @@
+fastapi>=0.115
+uvicorn[standard]>=0.32
+sqlalchemy>=2.0.36
+pymysql>=1.1.1
+cryptography>=43   # PyMySQL needs it for MySQL 8's caching_sha2_password auth
+certifi>=2024.8.30 # CA bundle for TLS to managed MySQL (?ssl=true)

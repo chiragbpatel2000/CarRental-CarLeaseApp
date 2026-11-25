@@ -1,0 +1,15 @@
+{
+  "name": "carrental-carleaseapp",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "setup": "node tools/run.mjs setup",
+    "dev": "node tools/run.mjs dev",
+    "build": "npm --prefix frontend run build",
+    "start": "node tools/run.mjs start",
+    "lint": "node tools/run.mjs lint",
+    "test": "node tools/run.mjs test",
+    "test:coverage": "node tools/run.mjs test-coverage",
+    "check": "npm run lint && npm run test:coverage && npm run build"
+  }
+}
